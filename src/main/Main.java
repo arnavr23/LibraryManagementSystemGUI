@@ -45,7 +45,7 @@ public class Main extends Application
 		
 		while(resultSet.next())
 		{
-			int r = resultSet.getRow() - 1;
+			int rowNo = resultSet.getRow() - 1;
 			
 			RadioButton radio = new RadioButton();
 			radio.setText(resultSet.getString(2));
@@ -58,8 +58,8 @@ public class Main extends Application
 				authorName.setTextFill(Color.GREY);
 			}
 				
-			gridPane.add(radio, 0, r);
-			gridPane.add(authorName, 1, r);
+			gridPane.add(radio, 0, rowNo);
+			gridPane.add(authorName, 1, rowNo);
 			
 			radio.setToggleGroup(group);
 			

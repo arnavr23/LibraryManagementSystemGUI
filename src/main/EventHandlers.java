@@ -31,7 +31,7 @@ public class EventHandlers {
 	
 	
 	public EventHandler<MouseEvent> getIssueEventHandler(int bookNumberToBeIssued, ToggleGroup students,
-														 Label author, RadioButton selectedButton) 
+														 Label author, RadioButton selectedButton, Stage studentsWindow) 
 	{
 		
 		EventHandler<MouseEvent> issueEvent = new EventHandler<MouseEvent>() {
@@ -54,6 +54,7 @@ public class EventHandlers {
 					@SuppressWarnings("unused")
 					DialogWindow dw = new DialogWindow("Book was issued successfully"," Confirmation Dialog Box");
 					
+					studentsWindow.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -120,7 +121,7 @@ public class EventHandlers {
 					pane2.add(cancel, 1, noOfRows);
 					
 					EventHandler<MouseEvent> issueEvent = getIssueEventHandler(bookNumberToBeIssued, students, 
-							                                         LabelAuth, selectedButton);
+							                                         LabelAuth, selectedButton, studentsWindow);
 					
 					EventHandler<MouseEvent> cancelEvent = getCancelEventHandler(studentsWindow);
 					
@@ -179,16 +180,16 @@ public class EventHandlers {
 		return cancelEventHandler;
 	}
 	
-	public EventHandler<MouseEvent> getReturnBookEventHandler(GridPane gridPane,ToggleGroup group)
+	public EventHandler<MouseEvent> getReturnBookEventHandler(GridPane gridPane,ToggleGroup tempGroup)
 	{
 		EventHandler<MouseEvent> returnBook = new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent event) {
 				
-				RadioButton selectedButton =(RadioButton) group.getSelectedToggle();
+				RadioButton selectedButton =(RadioButton) tempGroup.getSelectedToggle();
 				
-				Label LabelAuth = (Label) getNodeByRowColumnIndex(group.getToggles().lastIndexOf(selectedButton), 1, gridPane);
+				Label LabelAuth = (Label) getNodeByRowColumnIndex(tempGroup.getToggles().lastIndexOf(selectedButton), 1, gridPane);
 				
 				if(LabelAuth.getTextFill() == Color.BLACK  && selectedButton.getTextFill() == Color.BLACK)
 				{
@@ -198,7 +199,7 @@ public class EventHandlers {
 				try 
 				{
 					
-					databaseManager.returnBook(group);	
+					databaseManager.returnBook(tempGroup);	
 					
 					LabelAuth.setTextFill(Color.BLACK);
 					selectedButton.setTextFill(Color.BLACK);
